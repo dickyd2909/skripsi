@@ -1,0 +1,28 @@
+*Setting data panel 
+tsset PERUSAHAAN TAHUN
+
+*Common Effect Model (CEM)
+reg ROA LDR NIM
+estimates store CEM
+
+*FIXED EFFECT MODEL (FEM)
+xtreg ROA LDR NIM, fe
+estimates store FEM
+
+*RANDOM EFFECT MODEL(REM)
+xtreg ROA LDR NIM, re sa
+estimates store REM
+
+*UJI CHOW (CEM VS FEM)
+regress ROA LDR NIM i.PERUSAHAAN
+testparm i.PERUSAHAAN
+
+*UJI HAUSMAN (FEM VS REM)
+hausman FEM REM
+
+*REM
+xtreg ROA LDR NIM, re sa
+estimates store REM
+
+*UJI Breusch and Pagan Lagrangian multiplier (CEM VS REM)
+xttest0
